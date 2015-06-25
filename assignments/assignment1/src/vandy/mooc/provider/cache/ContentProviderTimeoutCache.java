@@ -2,6 +2,7 @@ package vandy.mooc.provider.cache;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import vandy.mooc.provider.AcronymContract;
 import vandy.mooc.provider.AcronymContract.AcronymEntry;
@@ -11,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.SystemClock;
+import android.util.Log;
 
 /**
  * Timeout cache that uses Content Providers to cache data and uses
@@ -24,6 +26,8 @@ public class ContentProviderTimeoutCache
      */
     public static final long CLEANUP_SCHEDULER_TIME_INTERVAL = 
         AlarmManager.INTERVAL_HALF_DAY;
+    
+    private static final String TAG = ContentProviderTimeoutCache.class.getSimpleName();
    
     /**
      * Store the context to allow access to application-specific
@@ -292,7 +296,8 @@ public class ContentProviderTimeoutCache
         };
 
         // TODO -- delete expired acronym expansions.
-        mContext.getContentResolver().delete(AcronymEntry.CONTENT_URI, SELECTION_EXPIRATION, selectionArgs);
+        int rowsDeleted = mContext.getContentResolver().delete(AcronymEntry.CONTENT_URI, SELECTION_EXPIRATION, selectionArgs);
+        Log.i(TAG, "Deleted " + rowsDeleted + " acronyms from cache");
     }
 
     /**

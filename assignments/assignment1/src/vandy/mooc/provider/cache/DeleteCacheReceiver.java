@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Broadcast receiver that will remove all the expired acronyms at regular
@@ -11,6 +12,9 @@ import android.content.Intent;
  * 
  */
 public class DeleteCacheReceiver extends BroadcastReceiver {
+	
+	private static final String TAG = DeleteCacheReceiver.class.getSimpleName();
+	
     /**
      * Private request code for sender that is passed in an Intent.
      */
@@ -61,6 +65,7 @@ public class DeleteCacheReceiver extends BroadcastReceiver {
         // from the cache.
         // TODO -- you fill in here by calling the appropriate method in 
         // the ContentProviderTimeoutCache.
+    	Log.i(TAG, "Deleting expired acronyms from cache");
     	new ContentProviderTimeoutCache(context).removeExpiredAcronyms();
     }
 }
